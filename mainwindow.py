@@ -2,6 +2,7 @@ from PySide6.QtCore import *
 from PySide6.QtGui import *
 from PySide6.QtWidgets import *
 from settingswindow import SettingsWindow
+from settingsjson import JsonSettings
 
 class MainWindow(QMainWindow):
 
@@ -9,6 +10,9 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.setWindowTitle("Megascans Assets Importer")
         self.setMinimumSize(QSize(640, 480))
+
+        self.json_settings = JsonSettings()
+        self.json_settings.json_create_read()
 
         self.init_toolbars()
 
@@ -44,7 +48,20 @@ class MainWindow(QMainWindow):
 
     def open_settings(self):
         dialog = SettingsWindow(self)
-        dialog.exec()
+        if hasattr(self.json_settings, 'settings_data'):
+            data = self.json_settings.settings_data
+            dialog.port_input.setText(data.get("port", ""))
+            dialog.path_input.setText(data.get("path", ""))
+            index = dialog.app_combo.findText(data.get("app", ""))
+            if index >= 0:
+                dialog.app_combo.setCurrentIndex(index)
+
+        if dialog.exec():
+            new_data = dialog.get_input_data()
+            self.json_settings.save_settings(new_data)
+            self.json_settings.settings_data = new_data
+
+            self.update_status("Settings saved successfully!")
 
     def update_status(self, message):
         self.status_label.setText(f"STATUS: {message}")

@@ -30,7 +30,7 @@ class SettingsWindow(QDialog):
         self.path_layout.addWidget(self.path_input)
 
         self.save_btn = QPushButton("Save Settings")
-        self.save_btn.clicked.connect(self.save_settings)
+        self.save_btn.clicked.connect(self.accept)
 
         self.layout.addLayout(self.port_layout)
         self.app_layout.addWidget(self.app_combo)
@@ -38,14 +38,9 @@ class SettingsWindow(QDialog):
         self.layout.addLayout(self.path_layout)
         self.layout.addWidget(self.save_btn)
 
-    def save_settings(self):
-        set_attr = {
+    def get_input_data(self):
+        return {
             "path": self.path_input.text(),
             "app": self.app_combo.currentText(),
             "port": self.port_input.text()
         }
-        print(self.path_input.text())
-        print(self.app_combo.currentText())
-        print(self.port_input.text())
-        with open('settings.json', 'w') as file:
-            json.dump(set_attr, file)
