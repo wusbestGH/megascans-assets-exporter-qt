@@ -17,5 +17,8 @@ Then go to repo and run the script
 ```bash
 python3 main.py
 ```
-# License
-This project is licensed under the GNU General Public License v3.0 only (GPL-3.0-only).
+# Licenses & Disclaimer
+This project is licensed under the GNU General Public License v3.0 only (GPL-3.0-only). </br>
+This project uses PySide6, which is licensed under the GNU Lesser General Public License v3 (LGPLv3).
+
+Please read the full [Disclaimer](DISCLAIMER.md) before using this software.
