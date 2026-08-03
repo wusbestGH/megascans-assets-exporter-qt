@@ -69,13 +69,13 @@ class MainWindow(QMainWindow):
 
         # Populate form fields if settings data exists
         if hasattr(self.json_settings, 'settings_data'): # Check existing JsonSettings.settings_data
-            data = self.json_settings.settings_data # Create a short reference to settings dictionary
+            json_settings = self.json_settings.settings_data # Create a short reference to settings dictionary
 
-            dialog.port_input.setText(data.get("port", "")) # Populate data from port input
-            dialog.path_input.setText(data.get("path", "")) # Populate data from path input
+            dialog.port_input.setText(json_settings.get("port", "")) # Populate data from port input
+            dialog.path_input.setText(json_settings.get("path", "")) # Populate data from path input
 
-            app_index = dialog.app_combo.findText(data.get("app", ""))
-            quality_index = dialog.quality_combo.findText(data.get("quality", ""))
+            app_index = dialog.app_combo.findText(json_settings.get("app", ""))
+            quality_index = dialog.quality_combo.findText(json_settings.get("quality", ""))
 
             if app_index >= 0:
                 dialog.app_combo.setCurrentIndex(app_index) # Populate data from app input
