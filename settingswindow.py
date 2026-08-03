@@ -21,17 +21,17 @@ class SettingsWindow(QDialog):
         super().__init__(parent)
         print("Settings window opened.")
         self.setWindowTitle("Settings")
-        self.setFixedSize(300, 220)
+        self.setFixedSize(500, 220)
 
         # Main Layout
         self.layout = QVBoxLayout(self)
 
-        # Port input
-        self.port_layout = QHBoxLayout()
-        self.port_label = QLabel("PORT:")
-        self.port_input = QLineEdit()
-        self.port_layout.addWidget(self.port_label)
-        self.port_layout.addWidget(self.port_input)
+        # Path input
+        self.path_layout = QHBoxLayout()
+        self.path_label = QLabel("PATH:")
+        self.path_input = QLineEdit()
+        self.path_layout.addWidget(self.path_label)
+        self.path_layout.addWidget(self.path_input)
 
         # App combobox
         self.app_layout = QHBoxLayout()
@@ -49,22 +49,22 @@ class SettingsWindow(QDialog):
         self.quality_layout.addWidget(self.quality_label)
         self.quality_layout.addWidget(self.quality_combo)
 
-        # Path input
-        self.path_layout = QHBoxLayout()
-        self.path_label = QLabel("PATH:")
-        self.path_input = QLineEdit()
-        self.path_layout.addWidget(self.path_label)
-        self.path_layout.addWidget(self.path_input)
+        # Port input
+        self.port_layout = QHBoxLayout()
+        self.port_label = QLabel("CUSTOM PORT:")
+        self.port_input = QLineEdit(placeholderText="if empty, using port from app (its automatic)")
+        self.port_layout.addWidget(self.port_label)
+        self.port_layout.addWidget(self.port_input)
 
         # Save button
         self.save_btn = QPushButton("Save Settings")
         self.save_btn.clicked.connect(self.accept) # Close window
 
         # Layout
-        self.layout.addLayout(self.port_layout)
+        self.layout.addLayout(self.path_layout)
         self.layout.addLayout(self.app_layout)
         self.layout.addLayout(self.quality_layout)
-        self.layout.addLayout(self.path_layout)
+        self.layout.addLayout(self.port_layout)
         self.layout.addWidget(self.save_btn)
 
     # Return inputs data for JsonSettings.save_settings
