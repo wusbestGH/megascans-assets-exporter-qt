@@ -20,7 +20,7 @@ class SettingsWindow(QDialog):
         super().__init__(parent)
         print("Settings window opened.")
         self.setWindowTitle("Settings")
-        self.setFixedSize(300, 180)
+        self.setFixedSize(300, 220)
 
         self.layout = QVBoxLayout(self)
 
@@ -34,9 +34,16 @@ class SettingsWindow(QDialog):
         self.app_label = QLabel("APP:")
         self.app_combo = QComboBox()
         self.app_combo.addItems(["Blender", "Cinema 4D", "Maya", "Houdini"])
-
         self.app_layout.addWidget(self.app_label)
         self.app_layout.addWidget(self.app_combo)
+
+        self.quality_layout = QHBoxLayout()
+        self.quality_label = QLabel("QUALITY:")
+        self.quality_combo = QComboBox()
+        self.quality_combo.addItems(["1K", "2K", "4K", "8K"])
+
+        self.quality_layout.addWidget(self.quality_label)
+        self.quality_layout.addWidget(self.quality_combo)
 
         self.path_layout = QHBoxLayout()
         self.path_label = QLabel("PATH:")
@@ -50,6 +57,7 @@ class SettingsWindow(QDialog):
         self.layout.addLayout(self.port_layout)
         self.app_layout.addWidget(self.app_combo)
         self.layout.addLayout(self.app_layout)
+        self.layout.addLayout(self.quality_layout)
         self.layout.addLayout(self.path_layout)
         self.layout.addWidget(self.save_btn)
 
@@ -57,5 +65,6 @@ class SettingsWindow(QDialog):
         return {
             "path": self.path_input.text(),
             "app": self.app_combo.currentText(),
+            "quality": self.quality_combo.currentText(),
             "port": self.port_input.text()
         }

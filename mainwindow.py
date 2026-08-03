@@ -54,11 +54,7 @@ class MainWindow(QMainWindow):
         spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.bottom_toolbar.addWidget(spacer)
 
-        self.quality_combo = QComboBox()
-        self.quality_combo.addItems(["1K", "2K", "4K"])
-
         self.export_btn = QPushButton("EXPORT")
-        self.bottom_toolbar.addWidget(self.quality_combo)
         self.bottom_toolbar.addWidget(self.export_btn)
 
     def open_settings(self):
@@ -67,9 +63,12 @@ class MainWindow(QMainWindow):
             data = self.json_settings.settings_data
             dialog.port_input.setText(data.get("port", ""))
             dialog.path_input.setText(data.get("path", ""))
-            index = dialog.app_combo.findText(data.get("app", ""))
-            if index >= 0:
-                dialog.app_combo.setCurrentIndex(index)
+            app_index = dialog.app_combo.findText(data.get("app", ""))
+            if app_index >= 0:
+                dialog.app_combo.setCurrentIndex(app_index)
+            quality_index = dialog.quality_combo.findText(data.get("quality", ""))
+            if quality_index >= 0:
+                dialog.quality_combo.setCurrentIndex(quality_index)
 
         if dialog.exec():
             new_data = dialog.get_input_data()
