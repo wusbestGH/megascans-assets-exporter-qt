@@ -53,6 +53,7 @@ class SettingsWindow(QDialog):
         self.port_layout = QHBoxLayout()
         self.port_label = QLabel("CUSTOM PORT:")
         self.port_input = QLineEdit(placeholderText="if empty, using port from app (its automatic)")
+        self.port_input.setMaxLength(5)
         self.port_layout.addWidget(self.port_label)
         self.port_layout.addWidget(self.port_input)
 
