@@ -20,63 +20,76 @@ from settingswindow import SettingsWindow
 from settingsjson import JsonSettings
 
 class MainWindow(QMainWindow):
-
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Megascans Assets Importer")
         self.setMinimumSize(QSize(640, 480))
 
-        self.json_settings = JsonSettings()
-        self.json_settings.json_create_read()
+        self.json_settings = JsonSettings() # Initialize JsonSettings
+        self.json_settings.json_create_read() # Check settings.json
 
-        self.init_toolbars()
+        self.init_toolbars() # Initialize toolbars (bottom and top)
 
     def init_toolbars(self):
+        # Status variable
         self.status_bar: str = ""
 
+        # Top Toolbar
         self.top_toolbar = QToolBar("Top Toolbar")
         # self.top_toolbar.setMovable(False)
         self.addToolBar(Qt.TopToolBarArea, self.top_toolbar)
 
+        # Settings button
         self.settings_action = QPushButton("Settings")
         self.settings_action.clicked.connect(self.open_settings)
         self.top_toolbar.addWidget(self.settings_action)
 
+        # Bottom Toolbar
         self.bottom_toolbar = QToolBar("Bottom Toolbar")
         self.bottom_toolbar.setMovable(False)
         self.addToolBar(Qt.BottomToolBarArea, self.bottom_toolbar)
 
+        # Status Label
         self.status_label = QLabel(self.status_bar)
         self.status_label.setContentsMargins(5, 0, 5, 0)
         self.bottom_toolbar.addWidget(self.status_label)
 
+        # Spacer
         spacer = QWidget()
         spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.top_toolbar.addWidget(spacer)
 
+        # Export button
         self.export_btn = QPushButton("EXPORT")
         self.top_toolbar.addWidget(self.export_btn)
 
+    # Click settings to open settings window
     def open_settings(self):
-        dialog = SettingsWindow(self)
-        if hasattr(self.json_settings, 'settings_data'):
-            data = self.json_settings.settings_data
-            dialog.port_input.setText(data.get("port", ""))
-            dialog.path_input.setText(data.get("path", ""))
-            app_index = dialog.app_combo.findText(data.get("app", ""))
-            if app_index >= 0:
-                dialog.app_combo.setCurrentIndex(app_index)
-            quality_index = dialog.quality_combo.findText(data.get("quality", ""))
-            if quality_index >= 0:
-                dialog.quality_combo.setCurrentIndex(quality_index)
+        dialog = SettingsWindow(self) # Initialize SettingsWindow
 
+        # Populate form fields if settings data exists
+        if hasattr(self.json_settings, 'settings_data'): # Check existing JsonSettings.settings_data
+            data = self.json_settings.settings_data # Create a short reference to settings dictionary
+
+            dialog.port_input.setText(data.get("port", "")) # Populate data from port input
+            dialog.path_input.setText(data.get("path", "")) # Populate data from path input
+
+            app_index = dialog.app_combo.findText(data.get("app", ""))
+            quality_index = dialog.quality_combo.findText(data.get("quality", ""))
+
+            if app_index >= 0:
+                dialog.app_combo.setCurrentIndex(app_index) # Populate data from app input
+            if quality_index >= 0:
+                dialog.quality_combo.setCurrentIndex(quality_index) # Populate data from quality texture input
+
+        # Save new settings when click button Save Settings
         if dialog.exec():
-            new_data = dialog.get_input_data()
-            self.json_settings.save_settings(new_data)
-            self.json_settings.settings_data = new_data
+            new_data = dialog.get_input_data() # Get settings from SettingsWindow.get_input_data
+            self.json_settings.save_settings(new_data) # Function to save new settings
+            self.json_settings.settings_data = new_data # Update json variable
 
             self.update_status("Settings saved successfully!")
 
     def update_status(self, message):
-        self.status_label.setText(f"STATUS: {message}")
+        self.status_label.setText(f"STATUS: {message}") # Change status in bottom toolbar
         print(f"[STATUS] {message}")

@@ -15,6 +15,7 @@
 
 from PySide6.QtWidgets import *
 
+# Settings window
 class SettingsWindow(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -22,14 +23,17 @@ class SettingsWindow(QDialog):
         self.setWindowTitle("Settings")
         self.setFixedSize(300, 220)
 
+        # Main Layout
         self.layout = QVBoxLayout(self)
 
+        # Port input
         self.port_layout = QHBoxLayout()
         self.port_label = QLabel("PORT:")
         self.port_input = QLineEdit()
         self.port_layout.addWidget(self.port_label)
         self.port_layout.addWidget(self.port_input)
 
+        # App combobox
         self.app_layout = QHBoxLayout()
         self.app_label = QLabel("APP:")
         self.app_combo = QComboBox()
@@ -37,30 +41,33 @@ class SettingsWindow(QDialog):
         self.app_layout.addWidget(self.app_label)
         self.app_layout.addWidget(self.app_combo)
 
+        # Quality texture combobox
         self.quality_layout = QHBoxLayout()
         self.quality_label = QLabel("QUALITY:")
         self.quality_combo = QComboBox()
         self.quality_combo.addItems(["1K", "2K", "4K", "8K"])
-
         self.quality_layout.addWidget(self.quality_label)
         self.quality_layout.addWidget(self.quality_combo)
 
+        # Path input
         self.path_layout = QHBoxLayout()
         self.path_label = QLabel("PATH:")
         self.path_input = QLineEdit()
         self.path_layout.addWidget(self.path_label)
         self.path_layout.addWidget(self.path_input)
 
+        # Save button
         self.save_btn = QPushButton("Save Settings")
-        self.save_btn.clicked.connect(self.accept)
+        self.save_btn.clicked.connect(self.accept) # Close window
 
+        # Layout
         self.layout.addLayout(self.port_layout)
-        self.app_layout.addWidget(self.app_combo)
         self.layout.addLayout(self.app_layout)
         self.layout.addLayout(self.quality_layout)
         self.layout.addLayout(self.path_layout)
         self.layout.addWidget(self.save_btn)
 
+    # Return inputs data for JsonSettings.save_settings
     def get_input_data(self):
         return {
             "path": self.path_input.text(),

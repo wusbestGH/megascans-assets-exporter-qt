@@ -15,20 +15,21 @@
 
 import json, os
 
-class JsonSettings():
+# Create settings.json, read settings, or change settings
+class JsonSettings:
     def json_create_read(self):
-        self.settings_json = "settings.json"
-        self.settings_data = {}
-        if os.path.exists(self.settings_json) and os.path.getsize(self.settings_json) > 0:
+        self.settings_json = "settings.json" # Settings json path
+        self.settings_data = {} # json variable for app. it empty by start
+        if os.path.exists(self.settings_json) and os.path.getsize(self.settings_json) > 0: # File exists and its not empty
             with open('settings.json', 'r') as file:
-                self.settings_data = json.load(file)
+                self.settings_data = json.load(file) # Load json settings from file
                 print("Settings:", self.settings_data)
         else:
             with open('settings.json', 'w') as file:
-                json.dump({}, file)
+                json.dump({}, file) # Create settings.json
                 print("Settings:", self.settings_data)
 
     def save_settings(self, data):
         print("Saving to JSON:", data)
         with open('settings.json', 'w') as file:
-            json.dump(data, file)
+            json.dump(data, file) # Update settings from settings window

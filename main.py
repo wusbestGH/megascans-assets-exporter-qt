@@ -21,7 +21,7 @@ print("Start.")
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    window = MainWindow()
-    window.update_status("")
-    window.show()
-    sys.exit(app.exec())
+    window = MainWindow() # Initialize MainWindow
+    window.update_status("") # Startup status
+    window.show() # Open window
+    sys.exit(app.exec()) # Close app
