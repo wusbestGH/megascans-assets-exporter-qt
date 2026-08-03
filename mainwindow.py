@@ -35,7 +35,7 @@ class MainWindow(QMainWindow):
         self.status_bar: str = ""
 
         self.top_toolbar = QToolBar("Top Toolbar")
-        self.top_toolbar.setMovable(False)
+        # self.top_toolbar.setMovable(False)
         self.addToolBar(Qt.TopToolBarArea, self.top_toolbar)
 
         self.settings_action = QPushButton("Settings")
@@ -52,10 +52,10 @@ class MainWindow(QMainWindow):
 
         spacer = QWidget()
         spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        self.bottom_toolbar.addWidget(spacer)
+        self.top_toolbar.addWidget(spacer)
 
         self.export_btn = QPushButton("EXPORT")
-        self.bottom_toolbar.addWidget(self.export_btn)
+        self.top_toolbar.addWidget(self.export_btn)
 
     def open_settings(self):
         dialog = SettingsWindow(self)
