@@ -27,6 +27,13 @@ class MainWindow(QMainWindow):
 
         self.init_toolbars() # Initialize toolbars (bottom and top)
 
+        from backend.libraryscan import LibraryAssets
+        self.libraryscan_class = LibraryAssets()
+        self.libraryscan_class.status_changed.connect(self.update_status)
+
+        self.libraryscan_class.libraryscan()
+
+
     def init_toolbars(self):
         # Status variable
         self.status_bar: str = ""
@@ -71,6 +78,7 @@ class MainWindow(QMainWindow):
             settings.settings_data = new_data # Update json variable
 
             self.update_status("Settings saved successfully!")
+            self.libraryscan_class.libraryscan()
 
     def update_status(self, message):
         self.status_label.setText(f"STATUS: {message}") # Change status in bottom toolbar

@@ -14,20 +14,22 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 import os, json
-
+from PySide6.QtCore import QObject, Signal
 from backend.config import settings
 
+class LibraryAssets(QObject):
+    status_changed = Signal(str)
 
-class LibraryAssets():
     def __init__(self):
-        pass
+        super().__init__()
 
     # Scanning folder for assets
     def libraryscan(self):
         json_settings = settings.settings_data
-        data = json.loads(json_settings) # Load json settings
+        data = json_settings # Load json settings
         folder_path = data["path"] # Folder path
 
+        self.status_changed.emit("Scanning library...")
         library_files = os.listdir(folder_path)
         for file_name in library_files:
             pass
