@@ -16,8 +16,8 @@
 from PySide6.QtCore import *
 from PySide6.QtGui import *
 from PySide6.QtWidgets import *
-from settingswindow import SettingsWindow
-from settingsjson import JsonSettings
+from frontend.settingswindow import SettingsWindow
+from backend.settingsjson import JsonSettings
 
 class MainWindow(QMainWindow):
     def __init__(self):

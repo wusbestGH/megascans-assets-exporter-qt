@@ -15,7 +15,7 @@
 
 import os, json
 
-from settingsjson import JsonSettings
+from backend.settingsjson import JsonSettings
 
 
 class LibraryAssets():

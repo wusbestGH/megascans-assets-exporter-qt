@@ -15,7 +15,7 @@
 
 import sys
 from PySide6.QtWidgets import *
-from mainwindow import MainWindow
+from frontend.mainwindow import MainWindow
 
 print("Start.")
 
