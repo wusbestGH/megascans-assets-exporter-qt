@@ -17,16 +17,13 @@ from PySide6.QtCore import *
 from PySide6.QtGui import *
 from PySide6.QtWidgets import *
 from frontend.settingswindow import SettingsWindow
-from backend.settingsjson import JsonSettings
+from backend.config import settings
 
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Megascans Assets Importer")
         self.setMinimumSize(QSize(640, 480))
-
-        self.json_settings = JsonSettings() # Initialize JsonSettings
-        self.json_settings.json_create_read() # Check settings.json
 
         self.init_toolbars() # Initialize toolbars (bottom and top)
 
@@ -67,26 +64,11 @@ class MainWindow(QMainWindow):
     def open_settings(self):
         dialog = SettingsWindow(self) # Initialize SettingsWindow
 
-        # Populate form fields if settings data exists
-        if hasattr(self.json_settings, 'settings_data'): # Check existing JsonSettings.settings_data
-            json_settings = self.json_settings.settings_data # Create a short reference to settings dictionary
-
-            dialog.port_input.setText(json_settings.get("port", "")) # Populate data from port input
-            dialog.path_input.setText(json_settings.get("path", "")) # Populate data from path input
-
-            app_index = dialog.app_combo.findText(json_settings.get("app", ""))
-            quality_index = dialog.quality_combo.findText(json_settings.get("quality", ""))
-
-            if app_index >= 0:
-                dialog.app_combo.setCurrentIndex(app_index) # Populate data from app input
-            if quality_index >= 0:
-                dialog.quality_combo.setCurrentIndex(quality_index) # Populate data from quality texture input
-
         # Save new settings when click button Save Settings
         if dialog.exec():
             new_data = dialog.get_input_data() # Get settings from SettingsWindow.get_input_data
-            self.json_settings.save_settings(new_data) # Function to save new settings
-            self.json_settings.settings_data = new_data # Update json variable
+            settings.save_settings(new_data) # Function to save new settings
+            settings.settings_data = new_data # Update json variable
 
             self.update_status("Settings saved successfully!")
 

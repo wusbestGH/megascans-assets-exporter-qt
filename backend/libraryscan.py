@@ -15,16 +15,16 @@
 
 import os, json
 
-from backend.settingsjson import JsonSettings
+from backend.config import settings
 
 
 class LibraryAssets():
     def __init__(self):
-        self.json_settings = JsonSettings() # Initialize JsonSettings
+        pass
 
     # Scanning folder for assets
     def libraryscan(self):
-        json_settings = self.json_settings.settings_data
+        json_settings = settings.settings_data
         data = json.loads(json_settings) # Load json settings
         folder_path = data["path"] # Folder path
 

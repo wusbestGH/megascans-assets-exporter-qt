@@ -14,6 +14,8 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 from PySide6.QtWidgets import *
+from backend.config import settings
+
 
 # Settings window
 class SettingsWindow(QDialog):
@@ -67,6 +69,21 @@ class SettingsWindow(QDialog):
         self.layout.addLayout(self.quality_layout)
         self.layout.addLayout(self.port_layout)
         self.layout.addWidget(self.save_btn)
+
+        # Populate form fields if settings data exists
+        if hasattr(settings, 'settings_data'):  # Check existing JsonSettings.settings_data
+            json_settings = settings.settings_data  # Create a short reference to settings dictionary
+
+            self.port_input.setText(json_settings.get("port", ""))  # Populate data from port input
+            self.path_input.setText(json_settings.get("path", ""))  # Populate data from path input
+
+            app_index = self.app_combo.findText(json_settings.get("app", ""))
+            quality_index = self.quality_combo.findText(json_settings.get("quality", ""))
+
+            if app_index >= 0:
+                self.app_combo.setCurrentIndex(app_index)  # Populate data from app input
+            if quality_index >= 0:
+                self.quality_combo.setCurrentIndex(quality_index)  # Populate data from quality texture input
 
     # Return inputs data for JsonSettings.save_settings
     def get_input_data(self):
