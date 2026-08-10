@@ -17,6 +17,11 @@ Then go to repo and run the script
 ```bash
 python3 main.py
 ```
+> [!IMPORTANT]
+> This app is need to use with already installed plugins (MSLiveLink, MSPlugin) on your DCCs.
+> 
+> Install it from Quixel Bridge or install forks from github or any other resources.
+
 # Licenses & Disclaimer
 This project is licensed under the GNU General Public License v3.0 only (GPL-3.0-only). </br>
 This project uses PySide6, which is licensed under the GNU Lesser General Public License v3 (LGPLv3).
