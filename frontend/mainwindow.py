@@ -25,13 +25,27 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("Megascans Assets Importer")
         self.setMinimumSize(QSize(640, 480))
 
+        self.central_widget = QWidget()
+        self.setCentralWidget(self.central_widget)
+        self.main_layout = QVBoxLayout(self.central_widget)
+
+        self.assets_list = QListWidget()
+        self.assets_list.setViewMode(QListView.IconMode)
+        self.assets_list.setIconSize(QSize(120, 120))
+        self.assets_list.setResizeMode(QListView.Adjust)
+        self.assets_list.setSpacing(10)
+        self.assets_list.setMovement(QListView.Static)
+        self.main_layout.addWidget(self.assets_list)
+
         self.init_toolbars() # Initialize toolbars (bottom and top)
 
         from backend.libraryscan import LibraryAssets
         self.libraryscan_class = LibraryAssets()
         self.libraryscan_class.status_changed.connect(self.update_status)
+        self.libraryscan_class.assets_found.connect(self.display_assets)
 
-        self.libraryscan_class.libraryscan()
+        self.libraryscan_class.start()
+
 
 
     def init_toolbars(self):
@@ -78,8 +92,25 @@ class MainWindow(QMainWindow):
             settings.settings_data = new_data # Update json variable
 
             self.update_status("Settings saved successfully!")
-            self.libraryscan_class.libraryscan()
+            if not self.libraryscan_class.isRunning():
+                self.libraryscan_class.start()
 
     def update_status(self, message):
         self.status_label.setText(f"STATUS: {message}") # Change status in bottom toolbar
         print(f"[STATUS] {message}")
+
+    @Slot(list)
+    def display_assets(self, assets):
+        self.assets_list.clear()
+
+        for asset in assets:
+            item = QListWidgetItem(asset["name"])
+            item.setSizeHint(QSize(130, 160))
+
+            if asset["preview"]:
+                pixmap = QPixmap(asset["preview"])
+                scaled = pixmap.scaled(120, 120, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+                item.setIcon(QIcon(scaled))
+
+            item.setData(Qt.UserRole, asset)
+            self.assets_list.addItem(item)
