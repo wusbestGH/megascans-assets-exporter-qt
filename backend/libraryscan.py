@@ -40,8 +40,8 @@ class LibraryAssets(QThread):
         path_obj = Path(folder_path)
 
         for json_file in path_obj.rglob("*.json"):
-            if "cloud_library" in json_file.name or json_file.stem.startswith("Asset_"):
-                continue
+            #if "cloud_library" in json_file.name or json_file.stem.startswith("Asset_"):
+            #    continue
 
             try:
                 with open(json_file, 'r', encoding='utf-8') as f:
@@ -55,7 +55,7 @@ class LibraryAssets(QThread):
                         found_assets.append({
                             "id": asset_info["id"],
                             "name": asset_info["name"],
-                            "type": asset_info.get("type", "unknown"),
+                            #"type": asset_info.get("type", "unknown"),
                             "path": str(json_file.parent),
                             "preview": preview_path
                         })
@@ -63,6 +63,7 @@ class LibraryAssets(QThread):
                 continue
 
         self.assets_found.emit(found_assets)
+        print(found_assets)
         self.status_changed.emit(f"Found {len(found_assets)} assets.")
 
     def _find_preview(self, folder: Path) -> str:

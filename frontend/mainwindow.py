@@ -49,6 +49,9 @@ class MainWindow(QMainWindow):
 
 
     def init_toolbars(self):
+        from backend.export import ExportAsset
+        self.export_class = ExportAsset()
+
         # Status variable
         self.status_bar: str = ""
 
@@ -80,6 +83,7 @@ class MainWindow(QMainWindow):
         # Export button
         self.export_btn = QPushButton("EXPORT")
         self.top_toolbar.addWidget(self.export_btn)
+        self.export_btn.clicked.connect(self.export_class.export)
 
     # Click settings to open settings window
     def open_settings(self):
