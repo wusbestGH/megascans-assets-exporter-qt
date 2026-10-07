@@ -26,4 +26,33 @@ class ExportAsset(QThread):
 
     def export(self):
         print("Exporting asset")
-        print(settings.settings_data)
+        self.is_custom_port = False
+        self.export_port = "" # Final export port
+        selected_port = settings.settings_data.get("port", "")
+        selected_app = settings.settings_data.get("app", "")
+
+        # Check is custom port
+        if selected_port == "":
+            pass
+        else:
+            self.is_custom_port = True
+
+        # Setting export port
+        if self.is_custom_port == True:
+            print("Custom port")
+            self.export_port = selected_port
+        else:
+            if selected_app == "Blender":
+                self.export_port = "0000"
+            elif selected_app == "Cinema 4D":
+                self.export_port = "0001"
+            elif selected_app == "Maya":
+                self.export_port = "0002"
+            elif selected_app == "Houdini":
+                self.export_port = "0003"
+            else:
+                print("Unknown app (what)")
+
+            print(self.export_port)
+
+

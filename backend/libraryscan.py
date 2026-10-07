@@ -28,8 +28,7 @@ class LibraryAssets(QThread):
         super().__init__()
 
     def run(self):
-        json_settings = settings.settings_data
-        folder_path = json_settings.get("path", "")
+        folder_path = settings.settings_data.get("path", "")
 
         if not folder_path or not os.path.exists(folder_path):
             self.status_changed.emit("Error: Invalid library path!")
